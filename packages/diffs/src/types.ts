@@ -488,11 +488,13 @@ export interface ObservedGridNodes {
   numberWidth: number;
 }
 
+export type CodeColumnType = 'unified' | 'additions' | 'deletions';
+
 export interface HunkData {
   slotName: string;
   hunkIndex: number;
   lines: number;
-  type: 'additions' | 'deletions' | 'unified';
+  type: CodeColumnType;
   expandable?: {
     chunked: boolean;
     up: boolean;
