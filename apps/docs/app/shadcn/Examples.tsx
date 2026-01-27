@@ -1,5 +1,9 @@
 'use client';
 
+import { File } from '@pierre/diffs/react';
+import { Lollipop, Menu } from 'lucide-react';
+import { Fragment, useState } from 'react';
+
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import {
@@ -9,9 +13,6 @@ import {
   type RepositoryData,
   type SyncedRepo,
 } from '@/registry/new-york/blocks/git-platform-sync/components/git-platform-sync';
-import { File } from '@pierre/diffs/react';
-import { Lollipop, Menu } from 'lucide-react';
-import { Fragment, useState } from 'react';
 
 const EXAMPLE_APP_SLUG = process.env.NEXT_PUBLIC_GITHUB_APP_SLUG;
 const DEFAULT_PLATFORM_CONFIG = [

@@ -17,5 +17,10 @@
     "paths": {
       "~/*": ["./src/*"]
     }
-  }
+  },
+  "references": [
+    {
+      "path": "../../packages/diffs/tsconfig.json"
+    }
+  ]
 }

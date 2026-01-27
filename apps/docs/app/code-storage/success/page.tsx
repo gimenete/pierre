@@ -1,9 +1,10 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { CheckCircle } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect } from 'react';
+
+import { Button } from '@/components/ui/button';
 
 const appInstallType = 'git-platform-sync-app-installed--github';
 

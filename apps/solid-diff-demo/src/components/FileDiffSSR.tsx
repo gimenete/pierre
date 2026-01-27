@@ -15,7 +15,7 @@ interface FileDiffSSRProps<T = unknown> {
   /** New file contents and name */
   newFile: FileContents;
   /** Configuration options for the diff viewer (use 'any' as FileDiffOptions requires generic) */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- FileDiffOptions requires generic type parameter
+  // oxlint-disable-next-line typescript/no-explicit-any -- FileDiffOptions requires generic type parameter
   options: any;
   /** Array of annotations to render in the diff */
   annotations: DiffLineAnnotation<T>[];
@@ -40,8 +40,9 @@ interface FileDiffSSRProps<T = unknown> {
  * @returns JSX element containing the hydrated file diff
  */
 export function FileDiffSSR(props: FileDiffSSRProps) {
+  // oxlint-disable-next-line no-unassigned-vars - should probably change this, it's correct
   let fileDiffRef: HTMLElement | undefined;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- FileDiff requires generic type parameter
+  // oxlint-disable-next-line typescript/no-explicit-any -- FileDiff requires generic type parameter
   let fileDiffInstance: FileDiff<any> | undefined;
   const [isHydrated, setIsHydrated] = createSignal(false);
   const cleanupFunctions: Array<() => void> = [];

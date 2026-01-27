@@ -2,6 +2,7 @@ import type { DiffLineAnnotation } from '@pierre/diffs';
 import { Title } from '@solidjs/meta';
 import { createAsync } from '@solidjs/router';
 import { Show, createSignal } from 'solid-js';
+
 import { FileDiffSSR } from '~/components/FileDiffSSR';
 import { getPreloadedDiff } from '~/lib/preload-diff';
 
@@ -115,7 +116,7 @@ export default function Home() {
             newFile={diff().newFile}
             options={diff().options}
             annotations={diff().annotations ?? []}
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Type cast needed for generic compatibility
+            // oxlint-disable-next-line typescript/no-explicit-any -- Type cast needed for generic compatibility
             renderAnnotation={renderAnnotation as any}
           />
         )}

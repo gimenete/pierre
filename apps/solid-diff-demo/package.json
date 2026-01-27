@@ -8,7 +8,7 @@
     "build:deps": "bun run build:deps:diffs",
     "build:deps:diffs": "output=$(cd ../../packages/diffs && bun run build 2>&1) && echo '[diffs] Successfully cleaned and built.' || (echo \"$output\" >&2 && exit 1)",
     "start": "vinxi start",
-    "tsc": "tsc --noEmit"
+    "tsc": "bun run build:deps && tsgo --noEmit"
   },
   "dependencies": {
     "@pierre/diffs": "workspace:",
