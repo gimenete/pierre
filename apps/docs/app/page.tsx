@@ -26,12 +26,15 @@ import { ShikiThemes } from './diff-examples/ShikiThemes/ShikiThemes';
 import { SHIKI_THEMES } from './diff-examples/ShikiThemes/constants';
 import { SplitUnified } from './diff-examples/SplitUnified/SplitUnified';
 import { SPLIT_UNIFIED } from './diff-examples/SplitUnified/constants';
+import type { ProductId } from './product-config';
+
+const PRODUCT_ID: ProductId = 'diffs';
 
 export default function Home() {
   return (
     <div className="mx-auto min-h-screen max-w-5xl px-5 xl:max-w-[80rem]">
       <Header className="-mb-[1px]" />
-      <Hero />
+      <Hero productId={PRODUCT_ID} />
       <section className="space-y-12 pb-8">
         <SplitUnifiedSection />
         <ShikiThemesSection />
