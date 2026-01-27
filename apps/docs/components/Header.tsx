@@ -139,9 +139,11 @@ export function Header({ onMobileMenuToggle, className }: HeaderProps) {
         <NavLink href="/docs" basePath={product.basePath}>
           Docs
         </NavLink>
-        <NavLink href="/theme" basePath={product.basePath}>
-          Theme
-        </NavLink>
+        {product.basePath === '' && (
+          <NavLink href="/theme" basePath={product.basePath}>
+            Theme
+          </NavLink>
+        )}
 
         <div className="border-border mx-2 h-5 w-px border-l" />
 
