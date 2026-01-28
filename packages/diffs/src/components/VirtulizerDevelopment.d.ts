@@ -7,6 +7,5 @@ declare global {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     __INSTANCE?: AdvancedVirtualizer<any> | SimpleVirtualizer;
     __TOGGLE?: () => void;
-    __STOP?: boolean;
   }
 }
