@@ -1,9 +1,18 @@
 import '@/app/prose.css';
 import Footer from '@/components/Footer';
+import { renderMDX } from '@/lib/mdx';
+import { preloadFile } from '@pierre/diffs/ssr';
 
 import { DocsLayout } from '../../docs/DocsLayout';
 import { HeadingAnchors } from '../../docs/HeadingAnchors';
 import { ProseWrapper } from '../../docs/ProseWrapper';
+import {
+  TREES_BASIC_USAGE,
+  TREES_INSTALLATION_BUN,
+  TREES_INSTALLATION_NPM,
+  TREES_INSTALLATION_PNPM,
+  TREES_INSTALLATION_YARN,
+} from './Overview/constants';
 
 export default function TreesDocsPage() {
   return (
@@ -12,7 +21,6 @@ export default function TreesDocsPage() {
         <div className="min-w-0 space-y-8">
           <HeadingAnchors />
           <OverviewSection />
-          {/* TODO: Add more trees documentation sections */}
         </div>
       </DocsLayout>
       <Footer />
@@ -20,15 +28,24 @@ export default function TreesDocsPage() {
   );
 }
 
-function OverviewSection() {
-  return (
-    <ProseWrapper>
-      <h2 id="overview">Overview</h2>
-      <p>
-        <code>@pierre/trees</code> is a file tree rendering library for building
-        beautiful, interactive file explorers.
-      </p>
-      <p>Documentation coming soon...</p>
-    </ProseWrapper>
-  );
+async function OverviewSection() {
+  const [basicUsage, installBun, installNpm, installPnpm, installYarn] =
+    await Promise.all([
+      preloadFile(TREES_BASIC_USAGE),
+      preloadFile(TREES_INSTALLATION_BUN),
+      preloadFile(TREES_INSTALLATION_NPM),
+      preloadFile(TREES_INSTALLATION_PNPM),
+      preloadFile(TREES_INSTALLATION_YARN),
+    ]);
+  const content = await renderMDX({
+    filePath: 'trees/docs/Overview/content.mdx',
+    scope: {
+      basicUsage,
+      installBun,
+      installNpm,
+      installPnpm,
+      installYarn,
+    },
+  });
+  return <ProseWrapper>{content}</ProseWrapper>;
 }
