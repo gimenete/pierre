@@ -304,7 +304,7 @@ export class File<LAnnotation = undefined> {
       : EMPTY_STRINGS;
   }
 
-  render({
+  public render({
     file,
     fileContainer,
     forceRender = false,
@@ -353,19 +353,13 @@ export class File<LAnnotation = undefined> {
 
     try {
       const pre = this.getOrCreatePreNode(fileContainer);
-      const attemptPartialRender =
-        !forceRender &&
-        !annotationsChanged &&
-        areFilesEqual(previousFile, file) &&
-        previousRenderRange != null &&
-        renderRange != null;
       if (
-        !attemptPartialRender ||
-        !this.applyPartialRender(
-          previousRenderRange,
-          renderRange,
-          annotationsChanged
-        )
+        !this.canPartiallyRender(
+          forceRender,
+          annotationsChanged,
+          areFilesEqual(previousFile, file)
+        ) ||
+        !this.applyPartialRender(previousRenderRange, renderRange)
       ) {
         const fileResult = this.fileRenderer.renderFile(file, renderRange);
         if (fileResult == null) {
@@ -392,6 +386,17 @@ export class File<LAnnotation = undefined> {
         console.error(error);
         this.applyErrorToDOM(error, fileContainer);
       }
+    }
+    return true;
+  }
+
+  private canPartiallyRender(
+    forceRender: boolean,
+    annotationsChanged: boolean,
+    didContentChange: boolean
+  ): boolean {
+    if (forceRender || annotationsChanged || didContentChange) {
+      return false;
     }
     return true;
   }
@@ -540,10 +545,12 @@ export class File<LAnnotation = undefined> {
   }
 
   private applyPartialRender(
-    previousRenderRange: RenderRange,
-    renderRange: RenderRange,
-    annotationsChanged: boolean
+    previousRenderRange: RenderRange | undefined,
+    renderRange: RenderRange | undefined
   ): boolean {
+    if (previousRenderRange == null || renderRange == null) {
+      return false;
+    }
     const { file, code } = this;
     const columns = code != null ? this.getColumns(code) : undefined;
     if (file == null || code == null || columns == null) {
@@ -564,10 +571,6 @@ export class File<LAnnotation = undefined> {
     const overlapStart = Math.max(previousStart, nextStart);
     const overlapEnd = Math.min(previousEnd, nextEnd);
     if (overlapEnd <= overlapStart) {
-      return false;
-    }
-
-    if (annotationsChanged && this.mightIntersectAnnotation(columns.gutter)) {
       return false;
     }
 
@@ -647,20 +650,6 @@ export class File<LAnnotation = undefined> {
     }
 
     return true;
-  }
-
-  private mightIntersectAnnotation(container: HTMLElement): boolean {
-    const { children } = container;
-    for (let i = 0; i < children.length; i += 1) {
-      const child = children[i];
-      if (!(child instanceof HTMLElement)) {
-        continue;
-      }
-      if (child.dataset.lineAnnotation != null) {
-        return true;
-      }
-    }
-    return false;
   }
 
   private getColumns(code: HTMLElement): ColumnElements | undefined {
