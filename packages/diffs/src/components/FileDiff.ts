@@ -545,7 +545,7 @@ export class FileDiff<LAnnotation = undefined> {
     return true;
   }
 
-  renderPlaceholder(height: number): boolean {
+  public renderPlaceholder(height: number): boolean {
     if (this.fileContainer == null) {
       return false;
     }
@@ -564,7 +564,6 @@ export class FileDiff<LAnnotation = undefined> {
   }
 
   private cleanChildNodes() {
-    // this.hunksRenderer.cleanUp();
     this.resizeManager.cleanUp();
     this.scrollSyncManager.cleanUp();
     this.mouseEventManager.cleanUp();
